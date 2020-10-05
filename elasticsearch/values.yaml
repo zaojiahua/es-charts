@@ -50,7 +50,7 @@ secretMounts: []
 #    path: /usr/share/elasticsearch/config/certs
 #    defaultMode: 0755
 
-image: "ccr.ccs.tencentyun.com/betaquantity/es-with-plugins"
+image: "ccr.ccs.tencentyun.com/betaquantity/betaquantity-elasticsearch"
 imageTag: "latest"
 imagePullPolicy: "IfNotPresent"
 
