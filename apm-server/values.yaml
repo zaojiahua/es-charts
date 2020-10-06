@@ -120,11 +120,23 @@ secretMounts: []
 
 terminationGracePeriod: 30
 
-tolerations: []
+tolerations:
+  - key: "es"
+    operator: "Equal"
+    value: "es"
+    effect: "NoSchedule"
 
 nodeSelector: {}
 
-affinity: {}
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: es
+              operator: In
+              values:
+                - es
 
 # This is the PriorityClass settings as defined in
 # https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass

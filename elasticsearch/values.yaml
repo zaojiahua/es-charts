@@ -66,6 +66,9 @@ resources:
   requests:
     cpu: "250m"
     memory: "500Mi"
+  limits:
+    cpu: "1"
+    memory: 2Gi
 
 initResources: {}
   # limits:
@@ -90,6 +93,7 @@ volumeClaimTemplate:
   resources:
     requests:
       storage: 30Gi
+  storageClassName: beta-cbs
 
 rbac:
   create: false
@@ -154,7 +158,22 @@ antiAffinity: "hard"
 
 # This is the node affinity settings as defined in
 # https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#node-affinity-beta-feature
-nodeAffinity: {}
+nodeAffinity:
+  # preferredDuringSchedulingIgnoredDuringExecution:
+    # - preference:
+    #    matchExpressions:
+    #     - key: es
+    #       operator: In
+    #       values:
+    #         - es
+    #   weight: 100
+  requiredDuringSchedulingIgnoredDuringExecution:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: es
+            operator: In
+            values:
+              - es
 
 # The default is to deploy all pods serially. By setting this to parallel all pods are started at
 # the same time when bootstrapping the cluster
@@ -219,9 +238,14 @@ clusterHealthCheckParams: "wait_for_status=green&timeout=1s"
 ##
 schedulerName: ""
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: qcloudregistrykey
 nodeSelector: {}
-tolerations: []
+tolerations:
+  - key: "es"
+    operator: "Equal"
+    value: "es"
+    effect: "NoSchedule"
 
 # Enabling this will publically expose your Elasticsearch instance.
 # Only enable this if you have security enabled on your cluster

@@ -40,11 +40,11 @@ podAnnotations: {}
 
 resources:
   requests:
-    cpu: "1000m"
-    memory: "2Gi"
+    cpu: "200m"
+    memory: "500Mi"
   limits:
-    cpu: "1000m"
-    memory: "2Gi"
+    cpu: "500m"
+    memory: "1Gi"
 
 protocol: http
 
@@ -130,8 +130,20 @@ readinessProbe:
 
 imagePullSecrets: []
 nodeSelector: {}
-tolerations: []
-affinity: {}
+tolerations:
+  - key: "es"
+    operator: "Equal"
+    value: "es"
+    effect: "NoSchedule"
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: es
+              operator: In
+              values:
+                - es
 
 nameOverride: ""
 fullnameOverride: ""
