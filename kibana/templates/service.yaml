@@ -4,6 +4,7 @@ kind: Service
 metadata:
   name: {{ template "kibana.fullname" . }}
   labels: {{ include "kibana.labels" . | nindent 4 }}
+  namespace: es
 {{- if .Values.service.labels }}
 {{ toYaml .Values.service.labels | indent 4}}
 {{- end }}

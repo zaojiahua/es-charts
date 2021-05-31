@@ -13,8 +13,9 @@ roles:
   ingest: "true"
   data: "true"
 
-replicas: 3
-minimumMasterNodes: 2
+replicas: 2
+minimumMasterNodes: 1
+namespace: "es"
 
 esMajorVersion: ""
 
@@ -67,8 +68,8 @@ resources:
     cpu: "250m"
     memory: "500Mi"
   limits:
-    cpu: "1"
-    memory: 2Gi
+    cpu: "2"
+    memory: 4Gi
 
 initResources: {}
   # limits:
@@ -92,7 +93,7 @@ volumeClaimTemplate:
   accessModes: [ "ReadWriteOnce" ]
   resources:
     requests:
-      storage: 30Gi
+      storage: 50Gi
   storageClassName: beta-cbs
 
 rbac:
